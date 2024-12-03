@@ -1,4 +1,5 @@
 ﻿using System;
+using GroupProject; // Assuming the User class is in this namespace
 
 class Program
 {
@@ -64,7 +65,7 @@ class Program
 
                 // Ask for Username
                 Console.WriteLine("Please enter Username:");
-                string custUsername = Console.ReadLine().Trim(); // ensuring no spaces are carried into validatio
+                string custUsername = Console.ReadLine().Trim(); // ensuring no spaces are carried into validation
 
                 // Validate the Username
                 string[] custList = { "cust001", "cust002" };
@@ -109,19 +110,70 @@ class Program
         }
     }
 
-
-
-    // Admin menu to be completed
+    // Admin menu to manage users, view details, etc.
     static void adminMenu()
     {
         Console.WriteLine("Welcome to the Admin Menu.");
 
+        // Example of Admin actions
+        Console.WriteLine("1: View all users");
+        Console.WriteLine("2: Modify user information");
+
+        int adminChoice = Convert.ToInt32(Console.ReadLine());
+
+        switch (adminChoice)
+        {
+            case 1:
+                // Demo Users
+                User user1 = new User(1, "cust001", "user123", "cust001@email.com", "555-1234", "123 Elm St", "Anytown");
+                User user2 = new User(2, "cust002", "user123", "cust002@email.com", "555-5678", "456 Oak St", "Anytown");
+
+                // Displaying users
+                Console.WriteLine("Displaying User Info:");
+                user1.DisplayUserInfo();
+                user2.DisplayUserInfo();
+                break;
+
+            case 2:
+                Console.WriteLine("Modify User Info Selected");
+                // Logic for modifying user info would go here
+                break;
+
+            default:
+                Console.WriteLine("Invalid choice.");
+                break;
+        }
     }
 
-    // User menu to be completed
+    // User menu to view and modify details
     static void custUserMenu()
     {
         Console.WriteLine("Welcome to the User Menu.");
 
+        // Example: User can view their details
+        Console.WriteLine("1: View User Info");
+        Console.WriteLine("2: Modify User Info");
+
+        int userChoice = Convert.ToInt32(Console.ReadLine());
+
+        switch (userChoice)
+        {
+            case 1:
+                // Demo Users
+                User currentUser = new User(1, "cust001", "user123", "cust001@email.com", "555-1234", "123 Elm St", "Anytown");
+
+                // Displaying user info
+                currentUser.DisplayUserInfo();
+                break;
+
+            case 2:
+                Console.WriteLine("Modify User Info Selected");
+                // Logic for modifying user info would go here
+                break;
+
+            default:
+                Console.WriteLine("Invalid choice.");
+                break;
+        }
     }
 }
