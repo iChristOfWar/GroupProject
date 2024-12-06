@@ -1,14 +1,25 @@
-﻿using System;
-using GroupProject; // Assuming the User class is in this namespace
+using System;
+using System.Collections.Generic;
+using GroupProject;
 
 class Program
 {
     static void Main()
     {
+        List<User> users = new List<User>();
+
+        // Demo Users
+        User user1 = new User(1, "cust001", "user123", "cust001@email.com", "123456", "123 Here St", "Anytown");
+        User user2 = new User(2, "cust002", "user123", "cust002@email.com", "555-5678", "456 Oak St", "Anytown");
+
+        // Add the demo users to the list
+        users.Add(user1);
+        users.Add(user2);
+
         // Display the main menu options
         Console.WriteLine("Main Menu:\nPlease select from the following:");
         Console.WriteLine("1: Admin Access");
-        Console.WriteLine("2: User Access");
+        Console.WriteLine("2: Customer Access");
 
         // Read the user's input and attempt to convert it to an integer
         int menuSelection = Convert.ToInt32(Console.ReadLine());
@@ -18,90 +29,12 @@ class Program
         {
             case 1:
                 Console.WriteLine("Admin Access Selected");
-
-                // Ask for Admin Username
-                Console.WriteLine("Please enter Admin Username:");
-                string adminUsername = Console.ReadLine().Trim();
-
-                // Validate the username
-                string[] adminList = { "admin", "root" };
-
-                bool isAdminValid = false;
-                foreach (var validUsername in adminList)
-                {
-                    if (string.Equals(adminUsername, validUsername))
-                    {
-                        isAdminValid = true;
-                        break;
-                    }
-                }
-
-                if (!isAdminValid)
-                {
-                    Console.WriteLine("Invalid Admin Username.");
-                    return;
-                }
-
-                // Ask for Admin Password
-                Console.WriteLine("Please enter Admin Password:");
-                string adminPassword = Console.ReadLine().Trim(); // ensuring no spaces are carried into validation
-
-                // Validate password 
-                string correctAdminPassword = "admin123";
-
-                if (adminPassword == correctAdminPassword)
-                {
-                    Console.WriteLine("Admin login successful.");
-                    adminMenu(); // Admin menu loaded after successful login
-                }
-                else
-                {
-                    Console.WriteLine("Invalid password.");
-                }
+                adminMenu(users);
                 break;
 
             case 2:
-                Console.WriteLine("User Access Selected");
-
-                // Ask for Username
-                Console.WriteLine("Please enter Username:");
-                string custUsername = Console.ReadLine().Trim(); // ensuring no spaces are carried into validation
-
-                // Validate the Username
-                string[] custList = { "cust001", "cust002" };
-
-                bool isCustValid = false;
-                foreach (var validUsername in custList)
-                {
-                    if (string.Equals(custUsername, validUsername))
-                    {
-                        isCustValid = true;
-                        break;
-                    }
-                }
-
-                if (!isCustValid)
-                {
-                    Console.WriteLine("Invalid Username.");
-                    return;
-                }
-
-                // Ask for User Password
-                Console.WriteLine("Please enter Password:");
-                string userPassword = Console.ReadLine().Trim();
-
-                // Validate password 
-                string correctUserPassword = "user123";
-
-                if (userPassword == correctUserPassword)
-                {
-                    Console.WriteLine("User login successful.");
-                    custUserMenu(); // User menu after successful login
-                }
-                else
-                {
-                    Console.WriteLine("Invalid password.");
-                }
+                Console.WriteLine("Customer Access Selected");
+                custUserMenu(users);
                 break;
 
             default:
@@ -111,32 +44,35 @@ class Program
     }
 
     // Admin menu to manage users, view details, etc.
-    static void adminMenu()
+    static void adminMenu(List<User> users)
     {
         Console.WriteLine("Welcome to the Admin Menu.");
 
-        // Example of Admin actions
+        // Admin actions
         Console.WriteLine("1: View all users");
-        Console.WriteLine("2: Modify user information");
+        Console.WriteLine("2: Modify user status");
+        Console.WriteLine("3: Product Amendment");
 
         int adminChoice = Convert.ToInt32(Console.ReadLine());
 
         switch (adminChoice)
         {
             case 1:
-                // Demo Users
-                User user1 = new User(1, "cust001", "user123", "cust001@email.com", "555-1234", "123 Elm St", "Anytown");
-                User user2 = new User(2, "cust002", "user123", "cust002@email.com", "555-5678", "456 Oak St", "Anytown");
-
-                // Displaying users
                 Console.WriteLine("Displaying User Info:");
-                user1.DisplayUserInfo();
-                user2.DisplayUserInfo();
+                foreach (var user in users)
+                {
+                    user.DisplayUserInfo();
+                }
                 break;
 
             case 2:
-                Console.WriteLine("Modify User Info Selected");
+                Console.WriteLine("Modify Customer Status");
                 // Logic for modifying user info would go here
+                break;
+
+            case 3:
+                Console.WriteLine("Product Amendment");
+                // Logic for product amendment would go here
                 break;
 
             default:
@@ -146,34 +82,111 @@ class Program
     }
 
     // User menu to view and modify details
-    static void custUserMenu()
+    static void custUserMenu(List<User> users)
     {
-        Console.WriteLine("Welcome to the User Menu.");
+        Console.WriteLine("Welcome to your Customer Menu.");
+        Console.WriteLine("Please enter your email address");
+        string emailCheck = Console.ReadLine();
 
-        // Example: User can view their details
-        Console.WriteLine("1: View User Info");
-        Console.WriteLine("2: Modify User Info");
+        // Find the user by email
+        User currentUser = users.Find(u => u.Email == emailCheck);
 
-        int userChoice = Convert.ToInt32(Console.ReadLine());
-
-        switch (userChoice)
+        if (currentUser != null)
         {
-            case 1:
-                // Demo Users
-                User currentUser = new User(1, "cust001", "user123", "cust001@email.com", "555-1234", "123 Elm St", "Anytown");
+            Console.WriteLine("Email verified. Please select an option:");
+            Console.WriteLine("1: View User Info");
+            Console.WriteLine("2: Modify User Info");
 
-                // Displaying user info
-                currentUser.DisplayUserInfo();
-                break;
+            int userChoice = Convert.ToInt32(Console.ReadLine());
 
-            case 2:
-                Console.WriteLine("Modify User Info Selected");
-                // Logic for modifying user info would go here
-                break;
+            switch (userChoice)
+            {
+                case 1:
+                    // Displaying user info
+                    Console.WriteLine("Displaying User Info:");
+                    currentUser.DisplayUserInfo();
+                    break;
 
-            default:
-                Console.WriteLine("Invalid choice.");
-                break;
+                case 2:
+                    Console.WriteLine("Modify User Info Selected - Please choose what modification is needed:");
+                    Console.WriteLine("1: Update Email Address\n2: Update Password.");
+                    int userModChoice = Convert.ToInt32(Console.ReadLine());
+                    switch (userModChoice)
+                    {
+                        case 1:
+                            Console.WriteLine("Please enter your current email address");
+                            string currentEmail = Console.ReadLine();
+                            if (currentEmail == currentUser.Email)
+                            {
+                                Console.WriteLine("Please enter new email address");
+                                string updatedEmail = Console.ReadLine();
+                                currentUser.Email = updatedEmail;  // Update email
+                                Console.WriteLine("Email updated successfully.");
+                                Console.WriteLine("If you wish to return to Main Menu enter 1. If you wish to exit enter 0"); // Option to return to menu
+                                int menuSelection = Convert.ToInt32(Console.ReadLine());
+                                if (menuSelection == 1)
+                                {
+                                    custUserMenu(users);
+                                }
+                                if (menuSelection == 2)
+                                {
+                                    Environment.Exit(0);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid entry.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not a valid email account");
+                            }
+                            break;
+
+                        case 2:
+                            Console.WriteLine("Please confirm your existing password");
+                            string currentPassword = Console.ReadLine();
+                            if (currentPassword == currentUser.Password)
+                            {
+                                Console.WriteLine("Please enter new password");
+                                string updatedPassword = Console.ReadLine();
+                                currentUser.Password = updatedPassword; // Update password
+                                Console.WriteLine("Password updated successfully.");
+                                Console.WriteLine("If you wish to return to Main Menu enter 1. If you wish to exit enter 0"); // Option to return to menu
+                                int menuSelection2 = Convert.ToInt32(Console.ReadLine());
+                                if (menuSelection2 == 1)
+                                {
+                                    custUserMenu(users);
+                                }
+                                if (menuSelection2 == 2)
+                                {
+                                    Environment.Exit(0);
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Invalid entry.");
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("Not a valid password");
+                            }
+                            break;
+
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("Invalid choice.");
+                    break;
+            }
+        }
+        else
+        {
+            Console.WriteLine("No user found with that email.");
         }
     }
 }
