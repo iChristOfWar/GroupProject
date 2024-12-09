@@ -1,105 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace ShippingApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            // List of shipping methods
-            List<ShippingMethod> shippingMethods = new List<ShippingMethod>
-            {
-                new ShippingMethod(1, "Standard Shipping", 5.99f, "Delivered in 5-7 business days."),
-                new ShippingMethod(2, "Expedited Shipping", 12.99f, "Delivered in 2-3 business days."),
-                new ShippingMethod(3, "Overnight Shipping", 24.99f, "Delivered the next day."),
-                new ShippingMethod(4, "International Shipping", 19.99f, "Delivered in 7-14 business days."),
-                new ShippingMethod(5, "In-Store Pickup", 0.00f, "Pickup from store within 1-2 hours.")
-            };
-
-            // Main menu
-            while (true)
-            {
-                Console.WriteLine("Welcome to the Shipping Method Page!");
-                Console.WriteLine("Select a shipping method to view details:");
-                Console.WriteLine("1. Standard Shipping");
-                Console.WriteLine("2. Expedited Shipping");
-                Console.WriteLine("3. Overnight Shipping");
-                Console.WriteLine("4. International Shipping");
-                Console.WriteLine("5. In-Store Pickup");
-                Console.WriteLine("6. Exit");
-                Console.Write("Enter your choice: ");
-
-                string choice = Console.ReadLine();
-                Console.Clear();
-
-                // Handle user input
-                switch (choice)
-                {
-                    case "1":
-                        DisplayShippingMethodDetails(shippingMethods, 1);
-                        break;
-                    case "2":
-                        DisplayShippingMethodDetails(shippingMethods, 2);
-                        break;
-                    case "3":
-                        DisplayShippingMethodDetails(shippingMethods, 3);
-                        break;
-                    case "4":
-                        DisplayShippingMethodDetails(shippingMethods, 4);
-                        break;
-                    case "5":
-                        DisplayShippingMethodDetails(shippingMethods, 5);
-                        break;
-                    case "6":
-                        Console.WriteLine("Thank you for using the Shipping Method Viewer. Goodbye!");
-                        return;
-                    default:
-                        Console.WriteLine("Invalid choice. Please try again.");
-                        break;
-                }
-                Console.WriteLine(); // Add spacing before the next menu
-            }
-        }
-
-        // Method to display details for a specific shipping method
-        static void DisplayShippingMethodDetails(List<ShippingMethod> shippingMethods, int methodId)
-        {
-            var selectedMethod = shippingMethods.Find(method => method.ShippingMethodID == methodId);
-
-            if (selectedMethod != null)
-            {
-                Console.WriteLine($"Shipping Method: {selectedMethod.MethodName}");
-                Console.WriteLine($"Price: {selectedMethod.Price:C}");
-                Console.WriteLine($"Details: {selectedMethod.Description}");
-            }
-            else
-            {
-                Console.WriteLine("Shipping method not found.");
-            }
-
-        
-            Console.WriteLine("Press Enter to return to the main menu...");
-            Console.ReadLine();
-            Console.Clear();
-        }
-    }
-
-    public class ShippingMethod
-    {
-        // Properties
-        public int ShippingMethodID { get; set; }
-        public string MethodName { get; set; }
-        public float Price { get; set; }
-        public string Description { get; set; }
-
-        // Constructor
-        public ShippingMethod(int shippingMethodId, string methodName, float price, string description)
-        {
-            ShippingMethodID = shippingMethodId;
-            MethodName = methodName;
-            Price = price;
-            Description = description;
-        }
-    }
-}
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35208.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "shipping", "shipping\shipping.csproj", "{4CD81CB1-0B47-4DEB-BEAF-9BB7795851F6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4CD81CB1-0B47-4DEB-BEAF-9BB7795851F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD81CB1-0B47-4DEB-BEAF-9BB7795851F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD81CB1-0B47-4DEB-BEAF-9BB7795851F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD81CB1-0B47-4DEB-BEAF-9BB7795851F6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D090B7DB-2904-428A-A70F-EF5A14051C78}
+	EndGlobalSection
+EndGlobal
