@@ -1,25 +1,119 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35208.52
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "product", "product\product.csproj", "{76160DF7-6F95-4B0A-9089-42C1B110949F}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{76160DF7-6F95-4B0A-9089-42C1B110949F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{76160DF7-6F95-4B0A-9089-42C1B110949F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{76160DF7-6F95-4B0A-9089-42C1B110949F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{76160DF7-6F95-4B0A-9089-42C1B110949F}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {8E61FE40-1BBF-4EEB-89E2-4B67349E8865}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.Collections.Generic;
+
+namespace ProductApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // List of products
+            List<Product> products = new List<Product>
+            {
+                // Mobile Phones
+                new Product(1, "iPhone 15", 999.99f, "Apple's latest smartphone with A16 Bionic chip.", "Mobile Phones"),
+                new Product(2, "Samsung Galaxy S23", 899.99f, "Flagship Android phone with stunning display.", "Mobile Phones"),
+                new Product(3, "Google Pixel 8", 799.99f, "AI-powered camera with pure Android experience.", "Mobile Phones"),
+                new Product(4, "OnePlus 11", 699.99f, "Fast performance and sleek design.", "Mobile Phones"),
+                new Product(5, "Xiaomi 13", 599.99f, "Affordable smartphone with premium features.", "Mobile Phones"),
+
+                // Laptops
+                new Product(6, "MacBook Pro 16", 2499.99f, "Apple's premium laptop with M2 Pro chip.", "Laptops"),
+                new Product(7, "Dell XPS 15", 2199.99f, "Sleek and powerful laptop for productivity.", "Laptops"),
+                new Product(8, "HP Spectre x360", 1899.99f, "Convertible laptop with touch display.", "Laptops"),
+                new Product(9, "Lenovo ThinkPad X1", 1799.99f, "Business laptop with durability and performance.", "Laptops"),
+                new Product(10, "ASUS ROG Zephyrus", 1599.99f, "Gaming laptop with high refresh rate display.", "Laptops"),
+
+                // Gaming Accessories
+                new Product(11, "Razer DeathAdder V2", 69.99f, "High-precision gaming mouse.", "Gaming Accessories"),
+                new Product(12, "Corsair K95 RGB Keyboard", 129.99f, "Mechanical keyboard with RGB lighting.", "Gaming Accessories"),
+                new Product(13, "SteelSeries Arctis 7", 159.99f, "Wireless gaming headset with 3D sound.", "Gaming Accessories"),
+                new Product(14, "Logitech G29 Steering Wheel", 299.99f, "Perfect for racing games.", "Gaming Accessories"),
+                new Product(15, "Elgato Stream Deck", 149.99f, "Customizable control panel for streamers.", "Gaming Accessories"),
+
+                // Headphones
+                new Product(16, "Sony WH-1000XM5", 399.99f, "Industry-leading noise cancellation.", "Headphones"),
+                new Product(17, "Bose QuietComfort 45", 329.99f, "Comfortable headphones with great sound.", "Headphones"),
+                new Product(18, "Jabra Elite 85h", 249.99f, "Smart noise-cancelling headphones.", "Headphones"),
+                new Product(19, "Beats Studio3", 349.99f, "Stylish headphones with pure bass.", "Headphones"),
+                new Product(20, "Sennheiser HD 560S", 199.99f, "Audiophile headphones with high accuracy.", "Headphones"),
+
+                // Speakers
+                new Product(21, "JBL Charge 5", 179.99f, "Portable Bluetooth speaker with deep bass.", "Speakers"),
+                new Product(22, "Sonos One", 219.99f, "Smart speaker with voice assistant.", "Speakers"),
+                new Product(23, "Bose SoundLink Revolve+", 299.99f, "360-degree sound portable speaker.", "Speakers"),
+                new Product(24, "Marshall Stanmore II", 399.99f, "Iconic design with powerful sound.", "Speakers"),
+                new Product(25, "Ultimate Ears BOOM 3", 149.99f, "Durable speaker with waterproof design.", "Speakers")
+            };
+
+            // Main menu
+            while (true)
+            {
+                Console.WriteLine("Welcome to the Product Page!");
+                Console.WriteLine("Select a category to view products:");
+                Console.WriteLine("1. Mobile Phones");
+                Console.WriteLine("2. Laptops");
+                Console.WriteLine("3. Gaming Accessories");
+                Console.WriteLine("4. Headphones");
+                Console.WriteLine("5. Speakers");
+                Console.WriteLine("6. Exit");
+                Console.Write("Enter your choice: ");
+
+                string choice = Console.ReadLine();
+                Console.Clear();
+
+                // Handle user input
+                switch (choice)
+                {
+                    case "1":
+                        DisplayProductsByCategory(products, "Mobile Phones");
+                        break;
+                    case "2":
+                        DisplayProductsByCategory(products, "Laptops");
+                        break;
+                    case "3":
+                        DisplayProductsByCategory(products, "Gaming Accessories");
+                        break;
+                    case "4":
+                        DisplayProductsByCategory(products, "Headphones");
+                        break;
+                    case "5":
+                        DisplayProductsByCategory(products, "Speakers");
+                        break;
+                    case "6":
+                        Console.WriteLine("Thank you for using the Product Viewer. Goodbye!");
+                        return;
+                    default:
+                        Console.WriteLine("Invalid choice. Please try again.");
+                        break;
+                }
+                Console.WriteLine(); // Add some spacing before the next menu
+            }
+        }
+
+        // Method to display products by category
+        static void DisplayProductsByCategory(List<Product> products, string category)
+        {
+            Console.WriteLine($"Products in {category}:");
+           
+            var categoryProducts = products.FindAll(p => p.CategoryName == category);
+
+            if (categoryProducts.Count > 0)
+            {
+                foreach (var product in categoryProducts)
+                {
+                    product.DisplayProductDetails();
+                }
+            }
+            else
+            {
+                Console.WriteLine($"No products found in {category}.");
+            }
+
+           
+            Console.WriteLine("Press Enter to return to the main menu...");
+            Console.ReadLine();
+            Console.Clear();
+        }
+    }
+}
