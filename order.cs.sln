@@ -1,25 +1,56 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35208.52
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "order.cs", "order.cs\order.cs.csproj", "{F1877CC9-146D-4DAF-B24A-F16CD5639651}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F1877CC9-146D-4DAF-B24A-F16CD5639651}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1877CC9-146D-4DAF-B24A-F16CD5639651}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1877CC9-146D-4DAF-B24A-F16CD5639651}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1877CC9-146D-4DAF-B24A-F16CD5639651}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E309E533-F19D-40FD-A67C-0260A1297CDF}
-	EndGlobalSection
-EndGlobal
+using System;
+
+public class Order
+{
+    // Properties
+    public string OrderId { get; set; }
+    public string CustomerId { get; set; }
+    public DateTime OrderDate { get; set; }
+    public DateTime? ShippingDate { get; set; } // Nullable in case shipping hasn't occurred yet
+    public double TotalAmount { get; set; }
+    public string OrderStatus { get; set; }
+
+    // Constructor
+    public Order(string orderId, string customerId, DateTime orderDate, DateTime? shippingDate, double totalAmount, string orderStatus)
+    {
+        OrderId = orderId;
+        CustomerId = customerId;
+        OrderDate = orderDate;
+        ShippingDate = shippingDate;
+        TotalAmount = totalAmount;
+        OrderStatus = orderStatus;
+    }
+
+    // Method to display order details
+    public void PrintOrderDetails()
+    {
+        Console.WriteLine($"Order ID: {OrderId}");
+        Console.WriteLine($"Customer ID: {CustomerId}");
+        Console.WriteLine($"Order Date: {OrderDate}");
+        Console.WriteLine($"Shipping Date: {(ShippingDate.HasValue ? ShippingDate.Value.ToString() : "Not shipped yet")}");
+        Console.WriteLine($"Total Amount: {TotalAmount:C}");
+        Console.WriteLine($"Order Status: {OrderStatus}");
+    }
+}
+
+public class Program
+{
+    // Main method
+    public static void Main(string[] args)
+    {
+        // Create an order
+        Order order = new Order(
+            "ORD12345",
+            "CUST67890",
+            DateTime.Now,
+            null, // Shipping date is null since it hasn't shipped
+            199.99,
+            "Pending"
+        );
+
+        // Display the order details
+        order.PrintOrderDetails();
+    }
+}
+
+
