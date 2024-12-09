@@ -1,25 +1,146 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35208.52
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "category", "category\category.csproj", "{F4D1809E-3EE3-47C6-902B-123DF510B7E3}"
-EndProject
-Global
-	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{F4D1809E-3EE3-47C6-902B-123DF510B7E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4D1809E-3EE3-47C6-902B-123DF510B7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4D1809E-3EE3-47C6-902B-123DF510B7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4D1809E-3EE3-47C6-902B-123DF510B7E3}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {EA703FAF-633F-4667-BF87-02ABA58D3B16}
-	EndGlobalSection
-EndGlobal
+using System;
+using System.Collections.Generic;
+
+namespace CategoryApp
+{
+    // Represents a product
+    public class Product
+    {
+        public int ProductID { get; set; }
+        public string ProductName { get; set; }
+        public float ProductPrice { get; set; }
+
+        public Product(int productId, string productName, float productPrice)
+        {
+            ProductID = productId;
+            ProductName = productName;
+            ProductPrice = productPrice;
+        }
+
+        public void DisplayProduct()
+        {
+            Console.WriteLine($"  - Product ID: {ProductID}");
+            Console.WriteLine($"    Product Name: {ProductName}");
+            Console.WriteLine($"    Price: {ProductPrice:C}");
+            Console.WriteLine();
+        }
+    }
+
+    // Represents a category containing a list of products
+    public class Category
+    {
+        public string CategoryName { get; set; }
+        public List<Product> Products { get; set; }
+
+        public Category(string categoryName, List<Product> products)
+        {
+            CategoryName = categoryName;
+            Products = products;
+        }
+    }
+
+    // Handles viewing categories and their products
+    public class CategoryViewer
+    {
+        private List<Category> categories;
+
+        public CategoryViewer()
+        {
+            categories = new List<Category>
+            {
+                new Category("Laptops", new List<Product>
+                {
+                    new Product(7, "Dell XPS 15", 2199.99f),
+                    new Product(6, "MacBook Pro 16", 2499.99f),
+                    new Product(8, "HP Spectre x360", 1899.99f),
+                    new Product(9, "Lenovo ThinkPad X1", 1799.99f),
+                    new Product(10, "ASUS ROG Zephyrus", 899.99f),
+                }),
+                new Category("Mobile Phones", new List<Product>
+                {
+                    new Product(1, "iPhone 15", 999.99f),
+                    new Product(2, "Samsung Galaxy S23", 899.99f),
+                    new Product(3, "Google Pixel 8", 799.99f),
+                    new Product(4, "OnePlus 11", 699.99f),
+                    new Product(5, "Xiaomi 13", 599.99f),
+                }),
+                new Category("Gaming Accessories", new List<Product>
+                {
+                    new Product(11, "Razer DeathAdder V2", 69.99f),
+                    new Product(12, "Corsair K95 RGB Keyboard", 129.99f),
+                    new Product(13, "SteelSeries Arctis 7", 159.99f),
+                    new Product(14, "Logitech G29 Steering Wheel", 299.99f),
+                    new Product(15, "Elgato Stream Deck", 149.99f),
+                }),
+                new Category("Headphones", new List<Product>
+                {
+                    new Product(16, "Sony WH-1000XM5", 399.99f),
+                    new Product(17, "Bose QuietComfort 45", 329.99f),
+                    new Product(18, "Jabra Elite 85h", 249.99f),
+                    new Product(19, "Beats Stuido3", 349.99f),
+                    new Product(20, "Sennheiser HD 560S", 199.99f),
+                }),
+                new Category("Speakers", new List<Product>
+                {
+                    new Product(21, "JBL Charge 5", 179.99f),
+                    new Product(22, "Sonos One", 219.99f),
+                    new Product(23, "Bose SoundLink Revolute+", 299.99f),
+                    new Product(24, "Marshall Stanmore II", 399.99f),
+                    new Product(25, "Ultimate Ears BOOM 3", 149.99f),
+                })
+            };
+        }
+
+        public void Run()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("Welcome to the Category Viewer!");
+                Console.WriteLine("Select a category to view its products:");
+
+                for (int i = 0; i < categories.Count; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {categories[i].CategoryName}");
+                }
+                Console.WriteLine($"{categories.Count + 1}. Exit");
+                Console.Write("Enter your choice: ");
+
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int choice) && choice > 0 && choice <= categories.Count + 1)
+                {
+                    if (choice == categories.Count + 1)
+                    {
+                        Console.WriteLine("Thank you for using the Category Viewer. Goodbye!");
+                        break;
+                    }
+
+                    DisplayCategoryProducts(choice);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number.");
+                    Console.WriteLine("Press Enter to try again...");
+                    Console.ReadLine();
+                }
+            }
+        }
+
+        private void DisplayCategoryProducts(int categoryId)
+        {
+            Console.Clear();
+            var selectedCategory = categories[categoryId - 1];
+
+            Console.WriteLine($"Category: {selectedCategory.CategoryName}");
+            Console.WriteLine("Products:");
+            foreach (var product in selectedCategory.Products)
+            {
+                product.DisplayProduct();
+            }
+
+            Console.WriteLine("Press Enter to return to the main menu...");
+            Console.ReadLine();
+        }
+    }
+}
